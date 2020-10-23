@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+   <usb-device
+        class="7"
+        product-id="8211"
+        protocol="2"
+        subclass="1"
+        vendor-id="1305" /> <!-- Printer 1-->
+    <usb-device
+        class="7"
+        product-id="8212"
+        protocol="2"
+        subclass="1"
+        vendor-id="1305" /> <!-- Printer 2-->
+
+    <usb-device
+        class="7"
+        product-id="8213"
+        protocol="2"
+        subclass="1"
+        vendor-id="1305" /> <!-- Printer 3-->
+        
+</resources>
