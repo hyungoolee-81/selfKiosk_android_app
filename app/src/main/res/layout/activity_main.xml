@@ -12,7 +12,15 @@
        android:layout_height="match_parent"
        android:layout_alignParentTop="true"
        android:layout_alignParentStart="true"
-       tools:ignore="MissingConstraints">
-
+       tools:ignore="MissingConstraints"
+       android:focusable="false"
+       android:focusableInTouchMode="false">
    </WebView>
+   <EditText
+       android:id="@+id/hiddentext"
+       android:layout_width="match_parent"
+       android:layout_height="1px"
+       tools:ignore="MissingConstraints"
+       android:visibility="visible">
+   </EditText>
 </androidx.constraintlayout.widget.ConstraintLayout>

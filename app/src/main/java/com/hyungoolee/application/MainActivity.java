@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.loader.AssetsProvider;
@@ -15,7 +17,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -25,6 +30,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.widget.EditText;
+import android.widget.TextSwitcher;
 import android.widget.Toast;
 
 import com.escpos.app.resource.ResourceInstaller;
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Context mContext = null;
     private Rexodusb mUsbConn = null;
+    private EditText edText;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -48,6 +56,38 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+
+        //세로 화면으로 고정
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+
+        Toast.makeText(getApplicationContext(), "Rotation : " + getWindowManager().getDefaultDisplay().getRotation(), Toast.LENGTH_LONG).show();
+
+        //가로 화면으로 고정
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        edText = (EditText) findViewById(R.id.hiddentext);
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        edText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String result = s.toString();
+                if(result.endsWith("\n")){
+                    inputMethodManager.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+                    mWebView.loadUrl("javascript:exFunction('"+result.trim()+"')");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         // copy bitmap
         ResourceInstaller resource = new ResourceInstaller();
@@ -69,16 +109,11 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings.setDomStorageEnabled(true);        //로컬저장소 허용 여부
         mWebSettings.setMediaPlaybackRequiresUserGesture(false);
         mWebView.setFocusable(false);
+        mWebView.requestFocus(View.FOCUS_DOWN);
         mWebView.addJavascriptInterface(new AndroidBridge(), "android2");
         mWebView.addJavascriptInterface(new AndroidBridge(), "urlCheck");
         mWebView.setLayerType(mWebView.LAYER_TYPE_HARDWARE, null);
-        mWebView.loadUrl("http://192.168.226.103/self/index?co_div=574");
-        String path = "";
-        String ext = Environment.getExternalStorageState();
-        if(ext.equals(Environment.MEDIA_MOUNTED)){
-            path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        }
-        Log.i(path,"path");
+        mWebView.loadUrl("http://10.15.5.102/self/index");
 
         //system resource
         mContext = getApplicationContext();
@@ -93,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Printer Port Open Fail", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getApplicationContext(), path, Toast.LENGTH_LONG).show();
+
     }
 
     /**
@@ -101,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public class AndroidBridge {
         private final Handler handler = new Handler();
+
         @JavascriptInterface
         public void callAndroid(final String arg1, final String arg2, final String arg3, final String arg4, final String arg5, final String arg6) {
             handler.post(new Runnable() {
@@ -130,8 +166,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 */
+
     /**
      * CHECK-IN LOCKER PRINTER
+     *
      * @param nowDate
      * @param couse_name
      * @param teeup_time
@@ -150,10 +188,10 @@ public class MainActivity extends AppCompatActivity {
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "즐거운 라운드 되십시오." + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
-        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + nowDate +" "+ teeup_time + " " + couse_name + " " + name + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + nowDate + " " + teeup_time + " " + couse_name + " " + name + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
-        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|4C" + "   번호            "+locker+ LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|4C" + "   번호            " + locker + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|bC" + "------------------------------------------------" + LF);
@@ -199,7 +237,5 @@ public class MainActivity extends AppCompatActivity {
         }
         mUsbConn.NlineFeed(4);
         mUsbConn.Partialcut();
-
-
     }
 }
