@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         mWebView.addJavascriptInterface(new AndroidBridge(), "android2");
         mWebView.addJavascriptInterface(new AndroidBridge(), "urlCheck");
         mWebView.setLayerType(mWebView.LAYER_TYPE_HARDWARE, null);
-        mWebView.loadUrl("http://10.15.5.102/self/index");
+        mWebView.loadUrl("http://10.15.5.102/self/index?co_div=435");
 
         //system resource
         mContext = getApplicationContext();
@@ -191,7 +191,34 @@ public class MainActivity extends AppCompatActivity {
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + nowDate + " " + teeup_time + " " + couse_name + " " + name + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
-        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|4C" + "   번호            " + locker + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|4C" + "  락커번호      " + locker + "  " + sex + " " + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|bC" + "------------------------------------------------" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + "★ 락카 사용 방법" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "1. 비밀번호 4자리를 입력합니다." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "2. \"삐삐\" 소리 후 잠깁니다." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "3. 비밀번호 4자리를 입력합니다." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "4. \"삐삐\" 소리 후 열립니다." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|bC" + "------------------------------------------------" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|cA" + "☆ 귀중품은 프론트에 보관하여 주십시오." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "골프존카운티 무주(을)를" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "방문해 주셔서 감사합니다." + LF);
+
+        /* 순천
+        mUsbConn.PrintBitMap("//sdcard//temp//bitmap//guide_b_logo2.bmp", 1);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "즐거운 라운드 되십시오." + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + nowDate + " " + teeup_time + " " + couse_name + " " + name + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
+        mUsbConn.PrintNormal(ESC + "|N" + ESC + "|4C" + "  락커번호      " + locker + "  " + sex + " " + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|bC" + "------------------------------------------------" + LF);
@@ -215,6 +242,8 @@ public class MainActivity extends AppCompatActivity {
         mUsbConn.PrintNormal(ESC + "|N" + "" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "골프존카운티 순천(을)를" + LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + ESC + "|cA" + "방문해 주셔서 감사합니다." + LF);
+
+        */
 /*
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|2C" + "Print double wide"+ LF);
         mUsbConn.PrintNormal(ESC + "|N" + ESC + "|3C" + "Print double high"+ LF);
